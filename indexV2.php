@@ -8,6 +8,52 @@
         	span {
         		color: red;
         	}
+
+/*****************************************************
+                FORM 
+******************************************************/
+
+            h1 {
+                text-align: center;
+                font-size: 50px;
+                color: steelblue;
+            }
+
+                form {
+                    width: 60%;
+                    background-color: steelblue;
+                    color: #fff;
+                    float:left;
+                    margin-top: 30px;
+                    margin-bottom: 60px;
+                }
+                fieldset {
+                    border: 2px solid #f2e8e8;
+                }
+
+                .controlgroup {
+                padding: 0 0 20px 0;
+    
+                }
+
+/*            
+            form {
+                margin: 20px auto;
+                width: 100%;
+                color: steelblue;
+            }
+            input {
+                padding: 5px;
+                margin-left: 30px;
+                font-size: inherit;
+            }
+            input[type="text"] {
+                display: block;
+                margin-bottom: 15px;
+                /*width: 100%;*/
+                border: 2px solid steelblue;
+            }*/
+
         </style>
     </head>
     <body>
@@ -19,7 +65,10 @@
         $clean = array(); // formerly $data array
         $errors = array();
 
+        if (isset($_POST['submitbtn'])) {
+            # code...
         
+        $form_is_submitted = true;
         // Process the form data here...
         // full name field
         if(isset($_POST['userName'])) {
@@ -78,6 +127,7 @@
              echo "<p>you must agree to our terms and conditions</p>";
              } 
         } else {
+            $errors['Terms'] = $readTerms . ' Read terms';
             echo "<p> No terms submission </p>";
           }
             // just toying around with hidden field in form
@@ -96,8 +146,27 @@
             echo '<p>Submit Status : not submitted </p>';
         }
 
+    // CLEAN DATA VALIDATION FOR RE-DISPLAY IN FORM
+        if (isset($clean['Terms'])) {
+            $UserReadTerms = htmlentities($clean['Terms']);
+        } else {
+            $UserReadTerms = '';
+        }
 
-        
+    // ERRORS SETTING THE FORM FIELD DATA
+        if (isset($errors['Terms'])) {
+            $ReadTermsError = htmlentities($errors['Terms']);
+        } else {
+            $ReadTermsError = '';
+        }   
+         
+    } // closes isset form submit button and then boolean true
+
+        if ($form_is_submitted === true && empty($errors)) {
+            echo "No errors detected, thank you for submitting :) ";
+         // VERY IMPORTANT ELSE BLOCK CONTAINS HTML FORM CODE
+        } else {  
+
         // this foreach iterates the array and displays the keys and values
         // if ($clean) {
         //     echo "<p><b>List of Fields that PASSED validation</b></p>";
@@ -133,10 +202,9 @@
           }
        
 
-    
   ?>           
 
-            	
+
     	<?php $self = htmlentities($_SERVER['PHP_SELF']); 
         ?>
         <script type="text/javascript">
@@ -145,7 +213,7 @@
         <form action="<?php echo $self; ?>" method="post">
             <fieldset>
 			<legend>Sign Up</legend>
-                <div>
+                <div class="controlgroup">
                     <label for="name">Full Name</label>
                     <input type="text" name="userName" id="name" 
 						value="<?php           
@@ -158,15 +226,16 @@
 
 		     			 <?php
 		     			 	if (isset($errors['UserName'])) {
-		     			 		echo "<span>Error invalid name</span>";
+		     			 		echo "<span>Error invalid name </span>";
 		     			 	}
-		     			  ?> 
-		     			 <!-- below php old code is for the span error displays on page load though is the problem -->	                        	
-                       <!-- <?php if($userName == '') { 
-                        // echo "<span>Error invalid name</span>";   
-                            }?>  -->
+		     			   
+		     			  // below php old code is for the span error displays ONx page load though is the problem 	                        	
+                        // if($userName == '') { 
+                         // echo "<span>Error invalid name</span>";   
+                            // } 
+                            ?>  
                 </div>
-                <div>            
+                <div class="controlgroup">            
                     <label for="email">Email</label>
                     <input type="text" name="userEmail" id="email" 
 
@@ -189,17 +258,17 @@
 		     			 } ?> -->
 
                 </div>
-                <div> 
+                <div class="controlgroup"> 
 
                 	<?php $selected = "selected" ?>           
                     <label for="format">Mail format</label>
                     <select name="mailFormat" id="format">
                         <option value="plain" 
-                        <?php if ($_POST['mailFormat'] =="plain") {
+                        <?php if ($mailFormat =="plain") {
                         	echo htmlentities('selected="selected"');
                         } 
                          ?> >Plain text</option>
-                        <option value="html"  <?php if($_POST['mailFormat'] =="html") {
+                        <option value="html"  <?php if($mailFormat =="html") {
                         	echo htmlentities('selected="selected"');
                         } ?> >HTML</option>
                         <!-- unsure about this dropdown menu thing -->
@@ -209,20 +278,28 @@
                 </div>
 
                 <?php $ticked = "checked=yes"; ?>
-                <div>            
-                    <input type="checkbox" name="readTerms" id="checkbox"  value="yes" <?php if (isset($_POST['readTerms'])) {
-                        echo htmlentities($ticked);
+                <div class="controlgroup">            
+                    <input type="checkbox"
+                           name="readTerms"
+                           id="checkbox"
+                           value="yes" 
+                           <?php if ($UserReadTerms == 'yes') {
+                        echo htmlentities(" checked");
                           } ?> /> 
                     <label for="checkbox">Tick this box to confirm you have read our <a href="#">terms and conditions</a></label>
+                    <?php echo '<span style ="color:red">' . $ReadTermsError . '</span>'; ?>
                 </div>
                 <div>
                     <input type="hidden" name="ref" value="A5treats3645W1LD" />
                 </div>                
-                <div>            
+                <div class="controlgroup">            
                     <input type="submit" name="submitbtn" value="Submit" />
                 </div>
             </fieldset>
         </form>
+    <?php 
+        } 
+    ?>
        
     </body>
 </html>
