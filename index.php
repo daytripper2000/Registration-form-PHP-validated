@@ -2,99 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <!-- Ryan Lucas 1 and 1 server doc -->
-        <title>Sign Up to our Mailing List! Session 6 redisplaying Forms</title>
+        <title>Sign Up to our Mailing List! Redisplaying Forms</title>
         <link rel="stylesheet" type="text/css" href="css/stylesheet.css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-        <!-- MY CSS BELOW -->
-        <style type="text/css">
-            span {
-                color: red;
-            }
-
-            h1 {
-                text-align: center;
-                font-size: 40px;
-                color: #44B4AE;
-            }
-
-/* Style inputs, select the elements and any textareas */
-input[type=text], select{
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  resize: vertical;
-}
-
-/* Style the label element to display next to the inputs */
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
-}
-
-/* Style the submit button */
-input[type=submit] {
-  background-color: #44B4AE;
-  color: white;
-  font-weight: bold;
-  font-size: 1.2em;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  float: right;
-  -webkit-appearance: none;
-}
-
-
-/* Style the container/wrapper div */
-.container {
-  border-radius: 5px;
-  /*background-color: #fff;*/
-  padding: 20px;
-}
-
-/* Floating column for labels: 25% width */
-.col-25 {
-  float: left;
-  width: 25%;
-  margin-top: 6px;
-}
-
-/* Floating column for inputs: 75% width */
-.col-75 {
-  float: left;
-  width: 75%;
-  margin-top: 6px;
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .col-25, .col-75, input[type=submit] {
-    width: 100%;
-  }
-  input[type=submit] {
-    margin-top: 2.5em;
-
-
-  }
-}                
-
-        </style>
     </head>
     <body>
-<!-- Ryan Lucas session 6 work web programming with PHP -->
+<!-- Ryan Lucas web programming with PHP -->
 <?php
         include 'functions/functions.php';
         $form_is_submitted = false;
@@ -158,14 +73,16 @@ input[type=submit] {
             $readTerms = htmlentities($trimmed);
             if (validTerms($readTerms)) {
                 $clean['Terms'] = $readTerms;
-                echo "<p>Read terms : " . htmlentities($readTerms) . "</p>";
+                // debugging for terms
+                //echo "<p>Read terms : " . htmlentities($readTerms) . "</p>";
             } else {
              $errors['Terms'] = $readTerms . ' is not valid';
              echo "<p>you must agree to our terms and conditions</p>";
              } 
         } else {
             $errors['Terms'] = ' Read terms';
-            echo "<p> No terms submission </p>";
+            // debugging code below
+            //echo "<p> No terms submission </p>";
           }
 
             // just toying around with hidden field in form
@@ -179,9 +96,11 @@ input[type=submit] {
         if (isset($_POST['submitbtn'])) {
             $trimmed = trim($_POST['submitbtn']);
             $html = htmlentities($trimmed);
-            echo '<p>Submit Status Request : ' . $html . '</p>';
+            // debugging below for submit button
+            //echo '<p>Submit Status Request : ' . $html . '</p>';
         } else {
-            echo '<p>Submit Status : not submitted </p>';
+          // debugging for submit button
+          //  echo '<p>Submit Status : not submitted </p>';
         }
 
     // CLEAN DATA VALIDATION FOR RE-DISPLAY IN FORM
@@ -205,7 +124,7 @@ input[type=submit] {
          // VERY IMPORTANT ELSE BLOCK CONTAINS HTML FORM CODE
         } else {  
 
-        // this foreach iterates the array and displays the keys and values
+        // debugging this foreach iterates the array and displays the keys and values
         // if ($clean) {
         //     echo "<p><b>List of Fields that PASSED validation</b></p>";
         //     foreach ($clean as $key => $value) {
@@ -220,24 +139,27 @@ input[type=submit] {
         // }
 
 
-       if (empty($errors)) {
-           echo "<p>The errors array is empty, there are no errors, all fields <b>PASSED</b></p>";
-       } else {
-            echo "<p style =color:red>Please correct the highlighted errors</p>";
-            foreach ($errors as $key => $value) {
-                echo '<p> Contents of Errors  array Key is: ' . $key . ' and value: ' . htmlentities($value) . '</p>';
+       // if (empty($errors)) {
+       //   debugging code below 
+       //      echo "<p>The errors array is empty, there are no errors, all fields <b>PASSED</b></p>"; 
+       // } else {
+       //      echo "<p style =color:red>Please correct the highlighted errors</p>";
+       //      foreach ($errors as $key => $value) {
+       //          echo '<p> Contents of Errors  array Key is: ' . $key . ' and value: ' . htmlentities($value) . '</p>';
                 
-            }
-       }
+       //      }
+       // }
 
-        if (empty($clean)) { 
-            echo "The valid data array is <b>EMPTY</b> <b>NO FIELDS PASSED Validation</b>";
-        } else {
-            echo "<p>List of fields that <b>PASSED VALIDATION</b> and the data entered</p>";
-            foreach ($clean as $key => $value) {
-                echo '<p> Contents of Valid Data array Key is: ' . $key . ' and value: ' . htmlentities($value) . '</p>';
-            }
-          }
+        // if (empty($clean)) {
+        //  debugging code below 
+        //     echo "The valid data array is <b>EMPTY</b> <b>NO FIELDS PASSED Validation</b>";
+        // } else {
+        //    debugging code below
+        //     echo "<p>List of fields that <b>PASSED VALIDATION</b> and the data entered</p>";
+        //     foreach ($clean as $key => $value) {
+        //         echo '<p> Contents of Valid Data array Key is: ' . $key . ' and value: ' . htmlentities($value) . '</p>';
+        //     }
+        //   }
        
 
   ?>           
@@ -336,8 +258,6 @@ input[type=submit] {
                     <?php if (isset($errors['Terms'])) { echo '<span>' . $ReadTermsError . '</span>';
                     } ?>
                     
-
-                
                 <div>
                     <input type="hidden" name="ref" value="A5treats3645W1LD" />
                 </div>                
